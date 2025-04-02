@@ -48,6 +48,10 @@ export const getUnitFullName = (unit: string): string => {
     }
     const description = convert().describe(unit);
 
+    if (description.measure === 'area' && description.singular === 'Centimeter') {
+      return `Square ${description.singular}`;
+    }
+
     return `${description.singular}`;
   } catch (error) {
     console.error(`Error getting full name for ${unit}:`, error);
