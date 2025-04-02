@@ -30,23 +30,20 @@ const UnitCategorySelector: React.FC<UnitCategorySelectorProps> = ({
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}
-      >
-        {UNIT_CATEGORIES.map((category) => (
+        contentContainerStyle={styles.scrollContainer}>
+        {UNIT_CATEGORIES.map(category => (
           <TouchableOpacity
             key={category}
             style={[
               styles.categoryButton,
               selectedCategory === category && styles.selectedCategoryButton,
             ]}
-            onPress={() => onSelectCategory(category)}
-          >
+            onPress={() => onSelectCategory(category)}>
             <Text
               style={[
                 styles.categoryText,
                 selectedCategory === category && styles.selectedCategoryText,
-              ]}
-            >
+              ]}>
               {getCategoryDisplayName(category)}
             </Text>
           </TouchableOpacity>
@@ -74,7 +71,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   categoryText: {
-    color: 'white',
+    color: COLORS.text,
     fontWeight: '500',
     fontSize: 14,
     textAlign: 'center',

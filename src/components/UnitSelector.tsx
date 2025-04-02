@@ -159,14 +159,14 @@ const styles = StyleSheet.create({
   },
   value: {
     fontSize: 32,
-    color: 'white',
+    color: COLORS.text,
     textAlign: 'right',
     fontWeight: '500',
     flex: 0.75,
   },
   unitAbbr: {
     fontSize: 20,
-    color: 'white',
+    color: COLORS.text,
     marginLeft: 8,
     flex: 0.25,
   },

@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.display,
     borderRadius: 10,
     padding: 20,
+    paddingBottom: 0,
     marginTop: 20,
     marginBottom: 15,
     marginHorizontal: 10,
     alignItems: 'flex-end',
     justifyContent: 'center',
-    minHeight: 120,
   },
   expressionText: {
     fontSize: 24,

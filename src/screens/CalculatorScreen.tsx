@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import CalcButton from '../components/CalcButton';
 import CalcDisplay from '../components/CalcDisplay';
 import { COLORS } from '../utils/constants';
@@ -133,8 +133,12 @@ const CalculatorScreen: React.FC<CalculatorScreenProps> = ({ onSwitchToConverter
   };
 
   const handleEquals = () => {
-    if (!operation || firstOperand === null) {return;}
-    if (waitingForSecondOperand) {return;} // Block calculation if equals pressed right after operation
+    if (!operation || firstOperand === null) {
+      return;
+    }
+    if (waitingForSecondOperand) {
+      return;
+    } // Block calculation if equals pressed right after operation
 
     // Handle division by zero error
     if (operation === '÷' && parseFloat(displayValue) === 0) {
@@ -165,7 +169,9 @@ const CalculatorScreen: React.FC<CalculatorScreenProps> = ({ onSwitchToConverter
   };
 
   const handleBackspace = () => {
-    if (waitingForSecondOperand || calculationComplete) {return;}
+    if (waitingForSecondOperand || calculationComplete) {
+      return;
+    }
 
     if (displayValue.length === 1 || (displayValue.length === 2 && displayValue.startsWith('-'))) {
       setDisplayValue('0');
@@ -231,10 +237,7 @@ const CalculatorScreen: React.FC<CalculatorScreenProps> = ({ onSwitchToConverter
           <CalcButton text="=" onPress={handleEquals} isOperation />
         </View>
 
-        <TouchableOpacity
-          style={styles.converterButton}
-          onPress={onSwitchToConverter}
-        >
+        <TouchableOpacity style={styles.converterButton} onPress={onSwitchToConverter}>
           <View style={styles.converterButtonContent}>
             <Text style={styles.converterButtonText}>Units Converter</Text>
             <Text style={styles.chevronUp}>▲</Text>
@@ -273,7 +276,7 @@ const styles = StyleSheet.create({
     color: COLORS.operationButtons,
     fontSize: 22,
     fontWeight: 'bold',
-    flex: 0.75
+    flex: 0.75,
   },
   chevronUp: {
     color: COLORS.operationButtons,
