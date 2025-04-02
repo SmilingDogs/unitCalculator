@@ -50,10 +50,7 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({
       <View style={styles.selectorRow}>
         {/* Top row with unit selector dropdown */}
         <View style={styles.topRow}>
-          <TouchableOpacity
-            onPress={openModal}
-            style={styles.unitNameContainer}
-          >
+          <TouchableOpacity onPress={openModal} style={styles.unitNameContainer}>
             <Text style={styles.unitName}>
               {renderUnitName(unitOptions.find(u => u === label) || '')}
             </Text>
@@ -70,12 +67,7 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({
         </View>
       </View>
 
-      <Modal
-        visible={modalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={closeModal}
-      >
+      <Modal visible={modalVisible} transparent animationType="fade" onRequestClose={closeModal}>
         <TouchableWithoutFeedback onPress={closeModal}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
@@ -83,21 +75,16 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({
               {unitOptions.length > 0 ? (
                 <FlatList
                   data={unitOptions}
-                  keyExtractor={(item) => item}
+                  keyExtractor={item => item}
                   renderItem={({ item }) => (
                     <TouchableOpacity
-                      style={[
-                        styles.unitOption,
-                        item === label && styles.selectedUnitOption,
-                      ]}
-                      onPress={() => handleSelect(item)}
-                    >
+                      style={[styles.unitOption, item === label && styles.selectedUnitOption]}
+                      onPress={() => handleSelect(item)}>
                       <Text
                         style={[
                           styles.unitOptionText,
                           item === label && styles.selectedUnitOptionText,
-                        ]}
-                      >
+                        ]}>
                         {renderUnitName(item)}
                       </Text>
                     </TouchableOpacity>
@@ -117,15 +104,15 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 10,
+    // marginBottom: 10,
     width: '100%',
   },
   selectorRow: {
     flexDirection: 'column',
     height: 125,
     borderWidth: 0,
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
     borderLeftWidth: 1,
     borderRightWidth: 1,
     borderLeftColor: 'rgba(255, 255, 255, 0.1)',
@@ -135,29 +122,36 @@ const styles = StyleSheet.create({
   },
   topRow: {
     flex: 1,
-    paddingTop: 10,
     paddingHorizontal: 10,
   },
   bottomRow: {
+    position: 'relative',
     flex: 1,
     justifyContent: 'flex-end',
     paddingBottom: 10,
   },
   unitNameContainer: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-start',
     paddingHorizontal: 10,
     width: '100%',
   },
   unitName: {
     color: COLORS.operationButtons,
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 20,
     flex: 1,
     flexWrap: 'wrap',
   },
+  dropdownArrow: {
+    color: COLORS.operationButtons,
+    fontSize: 14,
+  },
   valueContainer: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -175,11 +169,6 @@ const styles = StyleSheet.create({
     color: 'white',
     marginLeft: 8,
     flex: 0.25,
-  },
-  dropdownArrow: {
-    color: COLORS.operationButtons,
-    fontSize: 14,
-    marginLeft: 8,
   },
   modalOverlay: {
     flex: 1,

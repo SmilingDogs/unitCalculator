@@ -48,7 +48,7 @@ export const getUnitFullName = (unit: string): string => {
     }
     const description = convert().describe(unit);
 
-    return `${description.singular} (${description.abbr})`;
+    return `${description.singular}`;
   } catch (error) {
     console.error(`Error getting full name for ${unit}:`, error);
     return unit || '';
