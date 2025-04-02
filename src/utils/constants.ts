@@ -11,3 +11,5 @@ export const UNIT_CATEGORIES = ['area', 'length', 'temperature', 'volume', 'mass
 export type UnitCategory = (typeof UNIT_CATEGORIES)[number];
 //prettier-ignore
 export const CONVERTER_BUTTONS = ['7', '8', '9', '⌫', '4', '5', '6', 'C', '1', '2', '3', '↑', '+/-', '0', '.', '↓'];
+//prettier-ignore
+export const CALCULATOR_BUTTONS = ['C', 'x²', '%', '÷', '7', '8', '9', '×', '4', '5', '6', '-', '1', '2', '3', '+', '0', '.', '⌫', '='];

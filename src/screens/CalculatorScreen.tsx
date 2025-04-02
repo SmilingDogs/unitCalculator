@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import CalcButton from '../components/CalcButton';
 import CalcDisplay from '../components/CalcDisplay';
-import { COLORS } from '../utils/constants';
+import { COLORS, CALCULATOR_BUTTONS } from '../utils/constants';
 
 interface CalculatorScreenProps {
   onSwitchToConverter: () => void;
@@ -197,44 +197,40 @@ const CalculatorScreen: React.FC<CalculatorScreenProps> = ({ onSwitchToConverter
     setCalculationComplete(true);
   };
 
+  const handleButtonPress = (button: string) => {
+    if (button === 'C') {
+      return clearAll();
+    } else if (button === 'x²') {
+      return handleSquare();
+    } else if (button === '%') {
+      return handlePercent();
+    } else if (button.match(/[+\-×÷]/)) {
+      return handleOperator(button as OperationType);
+    } else if (button.match(/[0-9]/)) {
+      return inputDigit(button);
+    } else if (button === '=') {
+      return handleEquals();
+    } else if (button === '.') {
+      return inputDecimal();
+    } else if (button === '⌫') {
+      return handleBackspace();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <CalcDisplay value={displayValue} expression={expression} />
 
       <View style={styles.buttonContainer}>
         <View style={styles.row}>
-          <CalcButton text="C" onPress={clearAll} />
-          <CalcButton text="x²" onPress={handleSquare} />
-          <CalcButton text="%" onPress={handlePercent} />
-          <CalcButton text="÷" onPress={() => handleOperator('÷')} isOperation />
-        </View>
-
-        <View style={styles.row}>
-          <CalcButton text="7" onPress={() => inputDigit('7')} />
-          <CalcButton text="8" onPress={() => inputDigit('8')} />
-          <CalcButton text="9" onPress={() => inputDigit('9')} />
-          <CalcButton text="×" onPress={() => handleOperator('×')} isOperation />
-        </View>
-
-        <View style={styles.row}>
-          <CalcButton text="4" onPress={() => inputDigit('4')} />
-          <CalcButton text="5" onPress={() => inputDigit('5')} />
-          <CalcButton text="6" onPress={() => inputDigit('6')} />
-          <CalcButton text="-" onPress={() => handleOperator('-')} isOperation />
-        </View>
-
-        <View style={styles.row}>
-          <CalcButton text="1" onPress={() => inputDigit('1')} />
-          <CalcButton text="2" onPress={() => inputDigit('2')} />
-          <CalcButton text="3" onPress={() => inputDigit('3')} />
-          <CalcButton text="+" onPress={() => handleOperator('+')} isOperation />
-        </View>
-
-        <View style={styles.row}>
-          <CalcButton text="." onPress={inputDecimal} />
-          <CalcButton text="0" onPress={() => inputDigit('0')} />
-          <CalcButton text="⌫" onPress={handleBackspace} />
-          <CalcButton text="=" onPress={handleEquals} isOperation />
+          {CALCULATOR_BUTTONS.map((button, index) => (
+            <CalcButton
+              key={index}
+              text={button}
+              onPress={() => handleButtonPress(button)}
+              isOperation={!!button.match(/[+\-×÷=]/)}
+            />
+          ))}
         </View>
 
         <TouchableOpacity style={styles.converterButton} onPress={onSwitchToConverter}>
@@ -260,7 +256,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 2,
+    flexWrap: 'wrap',
   },
   converterButton: {
     width: '100%',
