@@ -24,17 +24,19 @@ const CalcButton: React.FC<CalcButtonProps> = ({
     if (text === 'x²') {
       return (
         <View style={styles.powerContainer}>
-          <Text style={[
-            styles.buttonText,
-            isOperation ? styles.operationButtonText : styles.regularButtonText,
-            textStyle,
-          ]}>
+          <Text
+            style={[
+              styles.buttonText,
+              isOperation ? styles.operationButtonText : styles.regularButtonText,
+              textStyle,
+            ]}>
             x
           </Text>
-          <Text style={[
-            styles.superscript,
-            isOperation ? styles.operationButtonText : styles.regularButtonText,
-          ]}>
+          <Text
+            style={[
+              styles.superscript,
+              isOperation ? styles.operationButtonText : styles.regularButtonText,
+            ]}>
             2
           </Text>
         </View>
@@ -47,8 +49,7 @@ const CalcButton: React.FC<CalcButtonProps> = ({
             isOperation ? styles.operationButtonText : styles.regularButtonText,
             styles.percentText,
             textStyle,
-          ]}
-        >
+          ]}>
           {text}
         </Text>
       );
@@ -59,8 +60,7 @@ const CalcButton: React.FC<CalcButtonProps> = ({
             styles.buttonText,
             isOperation ? styles.operationButtonText : styles.regularButtonText,
             textStyle,
-          ]}
-        >
+          ]}>
           {text}
         </Text>
       );
@@ -72,20 +72,17 @@ const CalcButton: React.FC<CalcButtonProps> = ({
       style={[
         styles.button,
         isOperation ? styles.operationButton : styles.regularButton,
-        text === 'C' || text === 'x²' || text === '%' || text === '÷' ? styles.firstRowButton : null,
         style,
         disabled && styles.disabledButton,
       ]}
       onPress={onPress}
-      disabled={disabled}
-    >
+      disabled={disabled}>
       <Text
         style={[
           styles.buttonText,
           isOperation && styles.operationButtonText,
           disabled && styles.disabledButtonText,
-        ]}
-      >
+        ]}>
         {renderButtonContent()}
       </Text>
     </TouchableOpacity>
@@ -94,17 +91,13 @@ const CalcButton: React.FC<CalcButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+    width: '25%',
+    height: '25%',
+    aspectRatio: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 4,
   },
-  firstRowButton: {
-    paddingVertical: 0,
-    paddingHorizontal: 0,
-  },
+
   operationButton: {
     backgroundColor: COLORS.operationButtons,
   },

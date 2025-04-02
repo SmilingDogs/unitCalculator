@@ -208,13 +208,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
+    marginBottom: 20,
+    marginTop: 20,
   },
   calculatorButton: {
     width: '100%',
-    padding: 5,
-    marginTop: 40,
   },
   calculatorButtonContent: {
     flexDirection: 'row',
@@ -239,7 +237,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    gap: 10,
+    // width: '100%',
   },
   row: {
     flexDirection: 'row',
