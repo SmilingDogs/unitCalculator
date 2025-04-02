@@ -10,6 +10,7 @@ import { SafeAreaView, StatusBar, StyleSheet, Animated, Dimensions } from 'react
 import CalculatorScreen from './src/screens/CalculatorScreen';
 import ConverterScreen from './src/screens/ConverterScreen';
 import { COLORS } from './src/utils/constants';
+import SplashScreen from 'react-native-splash-screen';
 
 const { height } = Dimensions.get('window');
 
@@ -53,6 +54,10 @@ function App(): React.ReactElement {
       }).start();
     }, 20);
   };
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

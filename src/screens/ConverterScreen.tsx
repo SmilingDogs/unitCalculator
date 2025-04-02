@@ -1,28 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  Dimensions,
-} from 'react-native';
-import { COLORS, UnitCategory } from '../utils/constants';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { CONVERTER_BUTTONS, COLORS, UnitCategory } from '../utils/constants';
 import UnitCategorySelector from '../components/UnitCategorySelector';
 import UnitSelector from '../components/UnitSelector';
-import {
-  getUnitsForCategory,
-  convertValue,
-  getUnitAbbreviation,
-} from '../utils/conversions';
+import { getUnitsForCategory, convertValue, getUnitAbbreviation } from '../utils/conversions';
 import CalcButton from '../components/CalcButton';
 
 interface ConverterScreenProps {
   onSwitchToCalculator: () => void;
 }
 
-const ConverterScreen: React.FC<ConverterScreenProps> = ({
-  onSwitchToCalculator,
-}) => {
+const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator }) => {
   const [selectedCategory, setSelectedCategory] = useState<UnitCategory>('area');
   const [fromUnit, setFromUnit] = useState<string>('');
   const [toUnit, setToUnit] = useState<string>('');
@@ -30,7 +18,6 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({
   const [toValue, setToValue] = useState<string>('');
   const [unitOptions, setUnitOptions] = useState<string[]>([]);
   const [activeInput, setActiveInput] = useState<'from' | 'to'>('from');
-  const [_currentInput, setCurrentInput] = useState<string>('');
 
   // Use ref to track previous fromUnit
   const prevFromUnitRef = useRef<string>('');
@@ -52,11 +39,7 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({
         // Update conversion when default units are set
         if (fromValue && defaultFromUnit && defaultToUnit) {
           try {
-            const result = convertValue(
-              parseFloat(fromValue),
-              defaultFromUnit,
-              defaultToUnit
-            );
+            const result = convertValue(parseFloat(fromValue), defaultFromUnit, defaultToUnit);
             setToValue(result.toFixed(6).toString());
           } catch (error) {
             console.error('Error during initial conversion:', error);
@@ -81,17 +64,13 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({
 
   const handleCategoryChange = (category: UnitCategory) => {
     setSelectedCategory(category);
-    // Reset to default input state when changing categories
     setActiveInput('from');
-    setCurrentInput('0');
     setFromValue('0');
   };
 
   const handleFromUnitChange = (unit: string) => {
     prevFromUnitRef.current = fromUnit;
     setFromUnit(unit);
-    // Clear input when changing units
-    setCurrentInput('0');
     setFromValue('0');
   };
 
@@ -99,57 +78,39 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({
     setToUnit(unit);
   };
 
-  // Convert handleDigitPress to useCallback to avoid closure issues
-  const handleDigitPress = useCallback((digit: string) => {
-    if (activeInput === 'from') {
-      setCurrentInput(currentInput => {
-        // If current input is '0', replace it with the new digit
-        let newValue;
-        if (currentInput === '0' && digit !== '.') {
-          newValue = digit;
-        } else {
-          newValue = currentInput + digit;
-        }
-
-        // Update fromValue whenever currentInput changes
-        setFromValue(newValue);
-        return newValue;
-      });
-    }
-  }, [activeInput]);
+  const handleDigitPress = useCallback(
+    (digit: string) => {
+      if (activeInput === 'from') {
+        setFromValue(current => {
+          // If current input is '0', replace it with the new digit
+          if (current === '0' && digit !== '.') {
+            return digit;
+          }
+          return current + digit;
+        });
+      }
+    },
+    [activeInput],
+  );
 
   const handleClear = useCallback(() => {
-    // Always reset to '0' instead of empty string to avoid issues
-    const newValue = '0';
-    setCurrentInput(newValue);
-    setFromValue(newValue);
+    setFromValue('0');
   }, []);
 
   const handleDecimal = useCallback(() => {
     if (activeInput === 'from') {
-      setCurrentInput(currentInput => {
-        // Don't add another decimal if one exists
-        if (currentInput.includes('.')) {
-          return currentInput;
+      setFromValue(current => {
+        if (current.includes('.')) {
+          return current;
         }
-
-        // Ensure we have a leading zero if adding decimal to empty input
-        const newValue = currentInput === '' || currentInput === '0' ? '0.' : currentInput + '.';
-        setFromValue(newValue);
-        return newValue;
+        return current === '' || current === '0' ? '0.' : current + '.';
       });
     }
   }, [activeInput]);
 
   const handleBackspace = useCallback(() => {
     if (activeInput === 'from') {
-      setCurrentInput(currentInput => {
-        const newValue = currentInput.length > 1
-          ? currentInput.slice(0, -1)
-          : '0';
-        setFromValue(newValue);
-        return newValue;
-      });
+      setFromValue(current => (current.length > 1 ? current.slice(0, -1) : '0'));
     }
   }, [activeInput]);
 
@@ -161,12 +122,34 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({
     // Placeholder for down arrow functionality
   };
 
+  const handlePlusMinus = () => {
+    // Placeholder for plus minus functionality
+  };
+
   useEffect(() => {
     if (fromUnit && prevFromUnitRef.current && fromUnit !== prevFromUnitRef.current) {
       // Only sync when unit changes, not on input changes
-      setCurrentInput(fromValue);
+      setFromValue(fromValue);
     }
   }, [fromUnit, fromValue]);
+
+  const handleButtonPress = (value: string) => {
+    if (value.match(/[0-9]/)) {
+      return handleDigitPress(value);
+    } else if (value === 'C') {
+      return handleClear();
+    } else if (value === '⌫') {
+      return handleBackspace();
+    } else if (value === '.') {
+      return handleDecimal();
+    } else if (value === '↑') {
+      return handleUpArrow();
+    } else if (value === '↓') {
+      return handleDownArrow();
+    } else if (value === '+/-') {
+      return handlePlusMinus();
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -190,7 +173,7 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({
           value={fromValue}
           unitOptions={unitOptions}
           onSelect={handleFromUnitChange}
-          unitAbbreviation={getUnitAbbreviation(fromUnit, selectedCategory)}
+          unitAbbreviation={getUnitAbbreviation(fromUnit)}
         />
 
         <UnitSelector
@@ -198,38 +181,19 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({
           value={toValue}
           unitOptions={unitOptions}
           onSelect={handleToUnitChange}
-          unitAbbreviation={getUnitAbbreviation(toUnit, selectedCategory)}
+          unitAbbreviation={getUnitAbbreviation(toUnit)}
         />
       </View>
 
       <View style={styles.keypad}>
-        <View style={styles.row}>
-          <CalcButton text="7" onPress={() => handleDigitPress('7')} />
-          <CalcButton text="8" onPress={() => handleDigitPress('8')} />
-          <CalcButton text="9" onPress={() => handleDigitPress('9')} />
-          <CalcButton text="⌫" onPress={handleBackspace} />
-        </View>
-
-        <View style={styles.row}>
-          <CalcButton text="4" onPress={() => handleDigitPress('4')} />
-          <CalcButton text="5" onPress={() => handleDigitPress('5')} />
-          <CalcButton text="6" onPress={() => handleDigitPress('6')} />
-          <CalcButton text="C" onPress={handleClear} />
-        </View>
-
-        <View style={styles.row}>
-          <CalcButton text="1" onPress={() => handleDigitPress('1')} />
-          <CalcButton text="2" onPress={() => handleDigitPress('2')} />
-          <CalcButton text="3" onPress={() => handleDigitPress('3')} />
-          <CalcButton text="↑" onPress={handleUpArrow} />
-        </View>
-
-        <View style={styles.row}>
-          <CalcButton text="+/-" onPress={() => {}} disabled={true} />
-          <CalcButton text="0" onPress={() => handleDigitPress('0')} />
-          <CalcButton text="." onPress={handleDecimal} />
-          <CalcButton text="↓" onPress={handleDownArrow} />
-        </View>
+        {CONVERTER_BUTTONS.map((button, i) => (
+          <CalcButton
+            key={i}
+            text={button}
+            onPress={() => handleButtonPress(button)}
+            disabled={button === '+/-'}
+          />
+        ))}
       </View>
     </View>
   );
@@ -261,7 +225,7 @@ const styles = StyleSheet.create({
     color: COLORS.operationButtons,
     fontSize: 22,
     fontWeight: 'bold',
-    flex: 0.5
+    flex: 0.5,
   },
   chevronDown: {
     color: COLORS.operationButtons,
@@ -272,44 +236,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   keypad: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    paddingBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    gap: 10,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 2,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 2,
-  },
-  button: {
-    width: '23%',
-    aspectRatio: 1,
-    backgroundColor: COLORS.regularButtons,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 24,
-  },
-  operationButton: {
-    backgroundColor: COLORS.operationButtons,
-  },
-  operationButtonText: {
-    color: COLORS.background,
   },
 });
 
