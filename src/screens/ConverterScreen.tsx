@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import { CONVERTER_BUTTONS, COLORS, UnitCategory } from '../utils/constants';
 import UnitCategorySelector from '../components/UnitCategorySelector';
 import UnitSelector from '../components/UnitSelector';
@@ -19,6 +19,7 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator 
   const [toValue, setToValue] = useState<string>('');
   const [unitOptions, setUnitOptions] = useState<string[]>([]);
   const [activeInput, setActiveInput] = useState<'from' | 'to'>('from');
+  const keypadAnim = useRef(new Animated.Value(Dimensions.get('window').height)).current;
 
   // Use ref to track previous fromUnit
   const prevFromUnitRef = useRef<string>('');
@@ -62,6 +63,15 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator 
       }
     }
   }, [fromUnit, toUnit, fromValue]);
+
+  useEffect(() => {
+    // Animate keypad up when component mounts
+    Animated.timing(keypadAnim, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [keypadAnim]);
 
   const handleCategoryChange = (category: UnitCategory) => {
     setSelectedCategory(category);
@@ -184,7 +194,13 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator 
         />
       </View>
 
-      <View style={styles.keypad}>
+      <Animated.View
+        style={[
+          styles.keypad,
+          {
+            transform: [{ translateY: keypadAnim }],
+          },
+        ]}>
         {CONVERTER_BUTTONS.map((button, i) => (
           <CalcButton
             key={i}
@@ -193,7 +209,7 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator 
             disabled={button === 'pm'}
           />
         ))}
-      </View>
+      </Animated.View>
     </View>
   );
 };
@@ -221,6 +237,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   row: {
     flexDirection: 'row',
