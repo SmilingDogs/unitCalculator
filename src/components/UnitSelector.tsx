@@ -136,12 +136,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingHorizontal: 10,
-    width: '100%',
+    gap: 20,
+    // width: '100%',
   },
   unitName: {
     color: COLORS.operationButtons,
     fontSize: 20,
-    flex: 1,
+    width: '60%',
     flexWrap: 'wrap',
   },
   dropdownArrow: {

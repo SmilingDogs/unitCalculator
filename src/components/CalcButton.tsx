@@ -78,6 +78,17 @@ const CalcButton: React.FC<CalcButtonProps> = ({
           {icon}
         </Text>
       );
+    } else if (text === 'pm') {
+      return (
+        <Text
+          style={[
+            styles.buttonText,
+            isOperation ? styles.operationButtonText : styles.regularButtonText,
+            textStyle,
+          ]}>
+          <AwesomeIcon name="plus-minus" size={28} color="rgb(234, 240, 125)" />
+        </Text>
+      );
     } else {
       return (
         <Text
@@ -148,11 +159,11 @@ const styles = StyleSheet.create({
 
   disabledButton: {
     backgroundColor: COLORS.regularButtons,
-    opacity: 0.6,
+    opacity: 0.5,
   },
   disabledButtonText: {
     color: COLORS.text,
-    opacity: 0.7,
+    opacity: 1,
   },
 });
 

@@ -190,7 +190,7 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator 
             key={i}
             text={button}
             onPress={() => handleButtonPress(button)}
-            disabled={button === '+/-'}
+            disabled={button === 'pm'}
           />
         ))}
       </View>
@@ -213,21 +213,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     gap: 20,
   },
-  calculatorButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  calculatorButtonText: {
-    color: COLORS.operationButtons,
-    fontSize: 22,
-    fontWeight: 'bold',
-    flex: 0.5,
-  },
-  chevronDown: {
-    color: COLORS.operationButtons,
-    fontSize: 20,
-  },
   converterContainer: {
     flex: 1,
     padding: 10,
@@ -236,7 +221,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    // width: '100%',
   },
   row: {
     flexDirection: 'row',
