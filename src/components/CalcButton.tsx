@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, ViewStyle, TextStyle, View } from 'react-native';
 import { COLORS } from '../utils/constants';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome6';
 
 interface CalcButtonProps {
   text: string;
@@ -19,6 +21,18 @@ const CalcButton: React.FC<CalcButtonProps> = ({
   isOperation = false,
   disabled = false,
 }) => {
+  const getIcon = () => {
+    if (text === '+') {
+      return <Icon name="add" size={28} color="black" />;
+    } else if (text === '-') {
+      return <Icon name="remove" size={28} color="black" />;
+    } else if (text === '×') {
+      return <Icon name="close" size={28} color="black" />;
+    } else if (text === '÷') {
+      return <AwesomeIcon name="divide" size={24} color="black" />;
+    }
+    return null;
+  };
   // Special handling for x² button
   const renderButtonContent = () => {
     if (text === 'x²') {
@@ -49,7 +63,19 @@ const CalcButton: React.FC<CalcButtonProps> = ({
             isOperation ? styles.operationButtonText : styles.regularButtonText,
             textStyle,
           ]}>
-          {text}
+          {<Icon name="percent" size={34} color="rgb(234, 240, 125)" />}
+        </Text>
+      );
+    } else if (text.match(/[+\-×÷]/)) {
+      const icon = getIcon();
+      return (
+        <Text
+          style={[
+            styles.buttonText,
+            isOperation ? styles.operationButtonText : styles.regularButtonText,
+            textStyle,
+          ]}>
+          {icon}
         </Text>
       );
     } else {

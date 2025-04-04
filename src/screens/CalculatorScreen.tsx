@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import CalcButton from '../components/CalcButton';
 import CalcDisplay from '../components/CalcDisplay';
 import { COLORS, CALCULATOR_BUTTONS } from '../utils/constants';
@@ -10,7 +10,7 @@ interface CalculatorScreenProps {
 
 type OperationType = '+' | '-' | '×' | '÷' | '' | '=';
 
-const CalculatorScreen: React.FC<CalculatorScreenProps> = ({ onSwitchToConverter }) => {
+const CalculatorScreen: React.FC<CalculatorScreenProps> = () => {
   const [displayValue, setDisplayValue] = useState('0');
   const [expression, setExpression] = useState('');
   const [firstOperand, setFirstOperand] = useState<number | null>(null);
@@ -232,13 +232,6 @@ const CalculatorScreen: React.FC<CalculatorScreenProps> = ({ onSwitchToConverter
             />
           ))}
         </View>
-
-        <TouchableOpacity style={styles.converterButton} onPress={onSwitchToConverter}>
-          <View style={styles.converterButtonContent}>
-            <Text style={styles.converterButtonText}>Units Converter</Text>
-            <Text style={styles.chevronUp}>▲</Text>
-          </View>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -250,8 +243,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   buttonContainer: {
-    flex: 1,
-    padding: 10,
+    marginTop: 80,
   },
   row: {
     flexDirection: 'row',
