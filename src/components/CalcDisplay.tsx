@@ -22,7 +22,7 @@ const CalcDisplay: React.FC<CalcDisplayProps> = ({ value, expression }) => {
 
 const styles = StyleSheet.create({
   display: {
-    backgroundColor: COLORS.display,
+    backgroundColor: COLORS.background,
     borderRadius: 10,
     padding: 20,
     paddingBottom: 0,
@@ -38,7 +38,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   displayText: {
-    fontSize: 65,
+    position: 'relative',
+    top: 15,
+    right: 0,
+    fontSize: 70,
     color: COLORS.text,
   },
 });

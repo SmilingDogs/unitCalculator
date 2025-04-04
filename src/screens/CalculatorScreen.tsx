@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import CalcButton from '../components/CalcButton';
 import CalcDisplay from '../components/CalcDisplay';
 import { COLORS, CALCULATOR_BUTTONS } from '../utils/constants';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome6';
 
 interface CalculatorScreenProps {
   onSwitchToConverter: () => void;
@@ -10,7 +11,7 @@ interface CalculatorScreenProps {
 
 type OperationType = '+' | '-' | '×' | '÷' | '' | '=';
 
-const CalculatorScreen: React.FC<CalculatorScreenProps> = () => {
+const CalculatorScreen: React.FC<CalculatorScreenProps> = ({ onSwitchToConverter }) => {
   const [displayValue, setDisplayValue] = useState('0');
   const [expression, setExpression] = useState('');
   const [firstOperand, setFirstOperand] = useState<number | null>(null);
@@ -221,6 +222,12 @@ const CalculatorScreen: React.FC<CalculatorScreenProps> = () => {
     <View style={styles.container}>
       <CalcDisplay value={displayValue} expression={expression} />
 
+      <View style={styles.switchToConverterContainer}>
+        <TouchableOpacity style={styles.switchButton} onPress={onSwitchToConverter}>
+          <AwesomeIcon name="arrow-right-arrow-left" size={28} color="white" />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.buttonContainer}>
         <View style={styles.row}>
           {CALCULATOR_BUTTONS.map((button, index) => (
@@ -243,33 +250,22 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   buttonContainer: {
-    marginTop: 80,
+    marginTop: 40,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
   },
-  converterButton: {
-    width: '100%',
-    padding: 5,
-    marginTop: 40,
+  switchToConverterContainer: {
+    width: '90%',
+    alignSelf: 'center',
+    borderBottomColor: COLORS.operationButtons,
+    borderBottomWidth: 1,
+    // paddingHorizontal: 20,
+    paddingVertical: 10,
   },
-  converterButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  converterButtonText: {
-    color: COLORS.operationButtons,
-    fontSize: 22,
-    fontWeight: 'bold',
-    flex: 0.75,
-  },
-  chevronUp: {
-    color: COLORS.operationButtons,
-    fontSize: 20,
-  },
+  switchButton: {},
 });
 
 export default CalculatorScreen;
