@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { CONVERTER_BUTTONS, COLORS, UnitCategory } from '../utils/constants';
 import UnitCategorySelector from '../components/UnitCategorySelector';
 import UnitSelector from '../components/UnitSelector';
 import { getUnitsForCategory, convertValue, getUnitAbbreviation } from '../utils/conversions';
 import CalcButton from '../components/CalcButton';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome6';
 
 interface ConverterScreenProps {
   onSwitchToCalculator: () => void;
@@ -155,10 +156,8 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator 
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={onSwitchToCalculator} style={styles.calculatorButton}>
-          <View style={styles.calculatorButtonContent}>
-            <Text style={styles.calculatorButtonText}>Calculator</Text>
-            <Text style={styles.chevronDown}>▼</Text>
-          </View>
+          <AwesomeIcon name="chevron-left" size={30} color={COLORS.text} />
+          <AwesomeIcon name="calculator" size={30} color={COLORS.text} />
         </TouchableOpacity>
       </View>
 
@@ -205,14 +204,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 20,
+    marginVertical: 20,
+    marginHorizontal: 20,
   },
   calculatorButton: {
-    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: 20,
   },
   calculatorButtonContent: {
     flexDirection: 'row',
