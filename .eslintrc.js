@@ -17,10 +17,20 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react-native/no-inline-styles': 'warn',
     '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/no-var-requires': 'off',
+    'import/no-commonjs': 'off',
   },
   settings: {
     react: {
       version: 'detect',
     },
   },
+  overrides: [
+    {
+      files: ['metro.config.js'],
+      parserOptions: {
+        sourceType: 'script',
+      },
+    },
+  ],
 };

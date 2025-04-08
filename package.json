@@ -7,14 +7,16 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "optimize-images": "node scripts/optimize-images.js"
   },
   "dependencies": {
     "convert-units": "^2.3.4",
     "react": "19.0.0",
     "react-native": "0.78.2",
     "react-native-splash-screen": "^3.3.0",
-    "react-native-vector-icons": "^10.2.0"
+    "react-native-vector-icons": "^10.2.0",
+    "sharp": "^0.34.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

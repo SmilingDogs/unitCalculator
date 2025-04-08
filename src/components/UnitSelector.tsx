@@ -17,6 +17,7 @@ interface UnitSelectorProps {
   unitOptions: string[];
   onSelect: (unit: string) => void;
   unitAbbreviation: string;
+  position: 'top' | 'bottom';
 }
 
 const UnitSelector: React.FC<UnitSelectorProps> = ({
@@ -25,6 +26,7 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({
   unitOptions,
   onSelect,
   unitAbbreviation,
+  position,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -47,7 +49,11 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.selectorRow}>
+      <View
+        style={[
+          styles.selectorRow,
+          position === 'top' ? styles.firstSelector : styles.secondSelector,
+        ]}>
         {/* Top row with unit selector dropdown */}
         <View style={styles.topRow}>
           <TouchableOpacity onPress={openModal} style={styles.unitNameContainer}>
@@ -104,7 +110,6 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    // marginBottom: 10,
     width: '100%',
   },
   selectorRow: {
@@ -120,9 +125,14 @@ const styles = StyleSheet.create({
     borderTopColor: COLORS.operationButtons,
     borderBottomColor: COLORS.operationButtons,
   },
+  firstSelector: {
+    borderBottomWidth: 0,
+  },
+  secondSelector: {
+    borderTopWidth: 0,
+  },
   topRow: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   bottomRow: {
     position: 'relative',
@@ -131,18 +141,15 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   unitNameContainer: {
-    // flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 10,
     gap: 20,
-    // width: '100%',
   },
   unitName: {
     color: COLORS.operationButtons,
     fontSize: 20,
-    width: '60%',
+    width: '55%',
     flexWrap: 'wrap',
   },
   dropdownArrow: {

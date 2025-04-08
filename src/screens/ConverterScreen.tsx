@@ -175,7 +175,6 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator 
         selectedCategory={selectedCategory}
         onSelectCategory={handleCategoryChange}
       />
-
       <View style={styles.converterContainer}>
         <UnitSelector
           label={fromUnit}
@@ -183,6 +182,7 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator 
           unitOptions={unitOptions}
           onSelect={handleFromUnitChange}
           unitAbbreviation={getUnitAbbreviation(fromUnit)}
+          position="top"
         />
 
         <UnitSelector
@@ -191,6 +191,7 @@ const ConverterScreen: React.FC<ConverterScreenProps> = ({ onSwitchToCalculator 
           unitOptions={unitOptions}
           onSelect={handleToUnitChange}
           unitAbbreviation={getUnitAbbreviation(toUnit)}
+          position="bottom"
         />
       </View>
 
