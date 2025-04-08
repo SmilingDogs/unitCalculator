@@ -24,7 +24,11 @@ function App(): React.ReactElement {
   };
 
   useEffect(() => {
-    SplashScreen.hide();
+    const timer = setTimeout(() => {
+      SplashScreen.hide();
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
