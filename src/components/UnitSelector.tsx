@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   unitName: {
     color: COLORS.operationButtons,
     fontSize: 20,
-    width: '55%',
+    width: '51%',
     flexWrap: 'wrap',
   },
   dropdownArrow: {
